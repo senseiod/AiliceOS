@@ -1,0 +1,19 @@
+[package]
+name = "bootloader"
+version = "1.0.0"
+authors = ["Senseiod <moyan@iouyi.top>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+uefi = "0.6.0"
+uefi-services = { version = "0.3.0", optional = true }
+log = "0.4.11"
+uart_16550 = "0.2.10"
+xmas-elf = "0.7.0"
+x86_64 = "0.12.2"
+
+[features]
+boot = ["uefi-services"]
+default = ["boot"]
