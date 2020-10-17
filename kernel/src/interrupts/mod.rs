@@ -1,11 +1,13 @@
 use trapframe;
 use trapframe::TrapFrame;
+use x86_64::instructions::interrupts;
 
 pub fn init() {
     unsafe {
         trapframe::init();
     }
-    println!("Init Interrupts");
+    interrupts::enable();
+    test!("Init Interrupts");
 }
 
 #[no_mangle]

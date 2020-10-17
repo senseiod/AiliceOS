@@ -19,7 +19,7 @@ use uefi::proto::media::file::{
 };
 use uefi::proto::media::fs::SimpleFileSystem;
 use uefi::table::boot::AllocateType;
-use uefi::table::cfg::ACPI2_GUID;
+use uefi::table::cfg::{ACPI2_GUID, SMBIOS_GUID};
 use x86_64::registers::control::{Cr0, Cr0Flags, Efer, EferFlags};
 use xmas_elf::ElfFile;
 
@@ -48,8 +48,18 @@ fn efi_main(image_handle: Handle, system_table: SystemTable<Boot>) -> Status {
         .find(|entry| entry.guid == ACPI2_GUID)
         .expect("Failed to find RSDP")
         .address;
-
     info!("ACPI2 RSDP address is : {:?}", acpi2_addr);
+
+
+    // Get smbios addr
+    let smbios_addr = system_table
+        .config_table()
+        .iter()
+        .find(|entry| entry.guid == SMBIOS_GUID)
+        .expect("failed to find SMBIOS")
+        .address;
+    info!("smbios: {:?}", smbios_addr);
+
 
     // 获取memory map
     let max_mmap_size = boot_services.memory_map_size();
@@ -106,6 +116,7 @@ fn efi_main(image_handle: Handle, system_table: SystemTable<Boot>) -> Status {
         memory_map,
         physical_memory_offset: PHYSICAL_MEMORY_OFFSET,
         graphic_info,
+        smbios_addr: smbios_addr as u64,
         acpi2_rsdp_addr: acpi2_addr as u64,
     };
 

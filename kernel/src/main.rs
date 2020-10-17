@@ -3,6 +3,8 @@
 #![feature(lang_items)]
 #![feature(default_alloc_error_handler)]
 #![feature(untagged_unions)]
+#![feature(llvm_asm)]
+#![feature(asm)]
 
 extern crate alloc;
 
@@ -14,21 +16,25 @@ pub mod interrupts;
 pub mod io;
 pub mod lang;
 pub mod memory;
+pub mod board;
 
 use bootloader::{entry_point, BootInfo};
+use crate::board::cpu::AP_CAN_INIT;
+use core::sync::atomic::Ordering;
 
 entry_point!(main);
 
 pub fn main(boot_info: &'static BootInfo) -> ! {
-    println!("I'm from Kernel!");
+    print!(33;"\n");
+    test!("I'm from Kernel!");
     memory::heap::init_heap();
     drivers::init_driver(boot_info);
     memory::init_frame(boot_info);
     interrupts::init();
-    test!("This is test");
-    error!("This is error");
-    warn!("This is warn");
-    debug!("This is debug");
-    println!("This is println");
+    board::cpu::early_init_cpu();
+
+    // Init ACPI Table
+    board::acpi::init(boot_info.acpi2_rsdp_addr as usize);
+    AP_CAN_INIT.store(true, Ordering::Relaxed);
     loop {}
 }

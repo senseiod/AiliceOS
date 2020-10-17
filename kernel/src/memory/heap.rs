@@ -12,5 +12,5 @@ pub fn init_heap() {
             .lock()
             .init(HEAP.as_ptr() as usize, HEAP_BLOCK * MACHINE_ALGIN);
     }
-    println!("Init Heap");
+    test!("Init Heap");
 }

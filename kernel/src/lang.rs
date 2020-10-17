@@ -19,7 +19,7 @@ II          II            II     II     II     III        IIIIIIIIIIIII
 
 
 ");
-    println!("{}", info);
+    debug!("{}", info);
     loop {}
 }
 

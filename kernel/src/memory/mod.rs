@@ -40,7 +40,7 @@ pub fn init_frame(boot_info: &BootInfo) {
     }
     let all_size = all_size * PAGE_SIZE as f64 / (1024 * 1024) as f64;
     println!("Total memory: {} M", all_size);
-    println!("Init memory Frame");
+    test!("Init memory Frame");
 }
 
 /// Convert physical address to virtual address
