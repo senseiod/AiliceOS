@@ -19,4 +19,5 @@ acpi = "1.1.0"
 bootloader = { path = "../bootloader",default-features = false}
 trapframe = { git = "https://github.com/rcore-os/trapframe-rs.git" }
 rcore-console = { git = "https://github.com/rcore-os/rcore-console.git", default-features = false}
-bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator" }
+bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator.git" }
+apic = { git = "https://github.com/rcore-os/apic-rs.git" }

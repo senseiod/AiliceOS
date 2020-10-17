@@ -11,6 +11,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "apic"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/apic-rs.git#fb86bd7c798608a18cbb48755637d97d4266eb89"
+dependencies = [
+ "bit_field 0.10.1",
+ "bitflags",
+ "x86",
+]
+
+[[package]]
 name = "arrayvec"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -95,6 +105,7 @@ name = "kernel"
 version = "0.1.0"
 dependencies = [
  "acpi",
+ "apic",
  "bitmap-allocator",
  "bootloader",
  "buddy_system_allocator",
@@ -298,6 +309,17 @@ checksum = "d257817081c7dffcdbab24b9e62d2def62e2ff7d00b1c20062551e6cccc145ff"
 dependencies = [
  "proc-macro2",
  "quote",
+]
+
+[[package]]
+name = "x86"
+version = "0.33.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2786ac694ed572ab5d2bbcd9e188805dba26b3501973dd69718914fb3d4a5a69"
+dependencies = [
+ "bit_field 0.10.1",
+ "bitflags",
+ "raw-cpuid",
 ]
 
 [[package]]

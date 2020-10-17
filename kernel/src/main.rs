@@ -19,8 +19,6 @@ pub mod memory;
 pub mod board;
 
 use bootloader::{entry_point, BootInfo};
-use crate::board::cpu::AP_CAN_INIT;
-use core::sync::atomic::Ordering;
 
 entry_point!(main);
 
@@ -32,9 +30,7 @@ pub fn main(boot_info: &'static BootInfo) -> ! {
     memory::init_frame(boot_info);
     interrupts::init();
     board::cpu::early_init_cpu();
-
-    // Init ACPI Table
+    board::cpu::cpu_init();
     board::acpi::init(boot_info.acpi2_rsdp_addr as usize);
-    AP_CAN_INIT.store(true, Ordering::Relaxed);
     loop {}
 }
