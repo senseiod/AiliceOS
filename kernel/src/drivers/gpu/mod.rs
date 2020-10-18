@@ -1,6 +1,6 @@
-use rcore_console::{DrawTarget, Rgb888, Pixel, Size, Console, ConsoleOnGraphic};
-use bootloader::BootInfo;
 use crate::memory::phys_to_virt;
+use bootloader::BootInfo;
+use rcore_console::{Console, ConsoleOnGraphic, DrawTarget, Pixel, Rgb888, Size};
 use spin::Mutex;
 
 pub static CONSOLE: Mutex<Option<ConsoleOnGraphic<Framebuffer>>> = Mutex::new(None);
@@ -27,7 +27,7 @@ impl DrawTarget<Rgb888> for Framebuffer {
 
 pub fn init_graphic_framebuffer(boot_info: &BootInfo) {
     let (width, height) = boot_info.graphic_info.mode.resolution();
-    let fb_addr =  boot_info.graphic_info.fb_addr as usize;
+    let fb_addr = boot_info.graphic_info.fb_addr as usize;
     let fb = Framebuffer {
         width,
         height,

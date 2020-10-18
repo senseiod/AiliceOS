@@ -3,11 +3,8 @@ use core::panic::PanicInfo;
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    print!("\n\n");
+    print!("\n");
     print!(31;r"
-
-
-
 IIIIIIII          III            OO     III     II        IIIIIIIIIIII
 II     II        II  II                 IIII    II        II
 II     II       II    II         II     II II   II        II
@@ -15,10 +12,8 @@ II     II      IIIIIIIIII        II     II  II  II        II
 IIIIIIII      II        II       II     II   II II        II
 II           II          II      II     II    IIII        II
 II          II            II     II     II     III        IIIIIIIIIIIII
-
-
-
 ");
+    print!("\n");
     debug!("{}", info);
     loop {}
 }

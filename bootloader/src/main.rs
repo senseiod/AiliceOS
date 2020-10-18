@@ -50,7 +50,6 @@ fn efi_main(image_handle: Handle, system_table: SystemTable<Boot>) -> Status {
         .address;
     info!("ACPI2 RSDP address is : {:?}", acpi2_addr);
 
-
     // Get smbios addr
     let smbios_addr = system_table
         .config_table()
@@ -59,7 +58,6 @@ fn efi_main(image_handle: Handle, system_table: SystemTable<Boot>) -> Status {
         .expect("failed to find SMBIOS")
         .address;
     info!("smbios: {:?}", smbios_addr);
-
 
     // 获取memory map
     let max_mmap_size = boot_services.memory_map_size();
@@ -166,7 +164,7 @@ fn load_kernel(boot_services: &BootServices) -> (ElfFile, KernelEntry) {
     let len: usize = file_handle.read(buf).expect_success("Failed to read file");
     let elf = ElfFile::new(buf[..len].as_ref()).expect("Failed to parse ELF");
     let kernel_entry_addr = elf.header.pt2.entry_point();
-    info!("Kernel Entry Point: {:x}", kernel_entry_addr);
+    info!("Kernel Entry Point: {:#x?}", kernel_entry_addr);
     let kernel_entry: KernelEntry = KernelEntry(VirtAddr::new(kernel_entry_addr));
     // 读取内核entry地址
     (elf, kernel_entry)

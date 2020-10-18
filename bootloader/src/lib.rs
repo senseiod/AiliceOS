@@ -18,7 +18,7 @@ pub struct BootInfo {
     pub graphic_info: GraphicInfo,
     /// Physical address of ACPI2 RSDP
     pub acpi2_rsdp_addr: u64,
-    pub smbios_addr: u64
+    pub smbios_addr: u64,
 }
 
 /// Kernel entry's virtual address.

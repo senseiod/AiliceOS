@@ -1,6 +1,6 @@
 use crate::io;
 ///! 使用串口，该功能也可以在内核中使用，可直接移植
-use core::fmt::{Arguments};
+use core::fmt::Arguments;
 
 #[macro_export]
 macro_rules! with_color {
@@ -14,7 +14,6 @@ macro_rules! print {
     ($color:expr;$($arg:tt)*) => (crate::console::print_in_color($color, format_args!($($arg)*)));
     ($($arg:tt)*) => (crate::console::print(format_args!($($arg)*)));
 }
-
 
 #[macro_export]
 macro_rules! println {
