@@ -22,7 +22,7 @@ run:
     -m 4096 \
     -smp 2 \
     -serial mon:stdio \
-    -nographic \
+   # -nographic \
 
 # 清理编译出来的文件
 clean:

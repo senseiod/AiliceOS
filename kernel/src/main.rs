@@ -17,6 +17,7 @@ pub mod interrupts;
 pub mod io;
 pub mod lang;
 pub mod memory;
+pub mod shell;
 
 use bootloader::{entry_point, BootInfo};
 
@@ -32,5 +33,6 @@ pub fn main(boot_info: &'static BootInfo) -> ! {
     board::acpi_table::get_acpi_addr(boot_info); // 从 boot_info中读取acpi_table address
     interrupts::init(); // 初始化Trap frame和中断
     memory::init_frame(boot_info); // 初始化内存Frame
+    shell::init_shell();
     loop {}
 }

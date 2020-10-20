@@ -13,6 +13,7 @@ x86_64 = "0.12.2"
 lazy_static = {version = "1.4.0", features = ["spin_no_std"]}
 spin = "0.5.2"
 raw-cpuid = "8.0.0"
+pc-keyboard = "0.5.1"
 acpi = "1.1.0"
 
 # Others Dependencies

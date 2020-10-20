@@ -25,9 +25,11 @@ pub fn init() {
     }
     init_ioapic();
     init_irq_table();
+    irq_add_handle(KEYBOARD + IRQ0, Box::new(keyboard));
+    irq_add_handle(COM1 + IRQ0, Box::new(com1));
     irq_enable_raw(KEYBOARD, KEYBOARD + IRQ0);
     irq_enable_raw(COM1, COM1 + IRQ0);
-
+    crate::drivers::serial::COM1.lock().init();
     unsafe {
         // enable global page
         Cr4::update(|f| f.insert(Cr4Flags::PAGE_GLOBAL));
@@ -57,7 +59,18 @@ pub extern "C" fn trap_handler(tf: &mut TrapFrame) {
         DOUBLE_FAULT => double_fault(tf),
         PAGE_FAULT => page_fault(tf),
         BREAKPOINT => breakpoint(),
+        IRQ0..=63 => irq_handle(tf.trap_num as u8),
         _ => panic!("Unhandled interrupt {:x} {:#x?}", tf.trap_num, tf),
+    }
+}
+
+pub fn irq_handle(irq: u8) {
+    let mut lapic = unsafe { XApic::new(phys_to_virt(LAPIC_ADDR)) };
+    lapic.eoi();
+    let table = IRQ_TABLE.lock();
+    match &table[irq as usize] {
+        Some(f) => f(),
+        None => panic!("unhandled external IRQ number: {}", irq),
     }
 }
 
@@ -73,6 +86,32 @@ fn page_fault(tf: &mut TrapFrame) {
     panic!("\nEXCEPTION: Page Fault\n{:#x?}", tf);
 }
 
+fn com1() {
+    let c = crate::drivers::serial::COM1.lock().receive();
+    crate::drivers::serial::serial_put(c);
+}
+
+fn keyboard() {
+    use pc_keyboard::{DecodedKey, KeyCode};
+    if let Some(key) = crate::board::keyboard::receive() {
+        match key {
+            DecodedKey::Unicode(c) => print!("{}", c),
+            DecodedKey::RawKey(code) => {
+                let s = match code {
+                    KeyCode::ArrowUp => "\u{1b}[A",
+                    KeyCode::ArrowDown => "\u{1b}[B",
+                    KeyCode::ArrowRight => "\u{1b}[C",
+                    KeyCode::ArrowLeft => "\u{1b}[D",
+                    _ => "",
+                };
+                for c in s.bytes() {
+                    print!("{}", c);
+                }
+            }
+        }
+    }
+}
+
 fn init_ioapic() {
     unsafe {
         for ioapic in AcpiTable::get_ioapic() {
@@ -81,15 +120,37 @@ fn init_ioapic() {
             ip.disable_all();
             let mut lapic = XApic::new(phys_to_virt(ioapic.address as usize));
             lapic.cpu_init();
-            let mut lapic =  XApic::new(phys_to_virt(LAPIC_ADDR));
-            lapic.eoi();
         }
     }
     let mut ip = unsafe { IoApic::new(phys_to_virt(IOAPIC_ADDR)) };
     ip.disable_all();
 }
 
-#[allow(dead_code)]
+/// Add a handle to IRQ table. Return the specified irq or an allocated irq on success
+pub fn irq_add_handle(irq: u8, handle: InterruptHandle) -> Option<u8> {
+    debug!("IRQ add handle {:#x?}", irq);
+    let mut table = IRQ_TABLE.lock();
+    // allocate a valid irq number
+    if irq == 0 {
+        let mut id = 0x20;
+        while id < table.len() {
+            if table[id].is_none() {
+                table[id] = Some(handle);
+                return Some(id as u8);
+            }
+            id += 1;
+        }
+        return None;
+    }
+    match table[irq as usize] {
+        Some(_) => None,
+        None => {
+            table[irq as usize] = Some(handle);
+            Some(irq)
+        }
+    }
+}
+
 // Reference: https://wiki.osdev.org/Exceptions
 //const DivideError: u8 = 0;
 //const Debug: u8 = 1;
