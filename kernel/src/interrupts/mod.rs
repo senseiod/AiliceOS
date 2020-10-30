@@ -184,4 +184,3 @@ pub const COM1: u8 = 4;
 //const IDE: u8 = 14;
 //const Error: u8 = 19;
 //const Spurious: u8 = 31;
-

@@ -1,14 +1,14 @@
+use crate::memory::{phys_to_virt, PAGE_SIZE};
 pub use acpi::{
     interrupt::{InterruptModel, InterruptSourceOverride, IoApic, Polarity, TriggerMode},
     Acpi,
 };
+use acpi::{parse_rsdp, AcpiHandler, PhysicalMapping};
 use alloc::vec::Vec;
+use bootloader::BootInfo;
+use core::ptr::NonNull;
 use lazy_static::*;
 use spin::Mutex;
-use acpi::{parse_rsdp, AcpiHandler, PhysicalMapping};
-use crate::memory::{PAGE_SIZE, phys_to_virt};
-use core::ptr::NonNull;
-use bootloader::BootInfo;
 
 pub struct AcpiTable {
     inner: Acpi,
@@ -31,10 +31,10 @@ lazy_static! {
 
 impl AcpiTable {
     fn initialize_check() {
-                let mut table = ACPI_TABLE.lock();
-                if table.is_none() {
-                    *table = get_acpi_table().map(|x| AcpiTable { inner: x });
-                }
+        let mut table = ACPI_TABLE.lock();
+        if table.is_none() {
+            *table = get_acpi_table().map(|x| AcpiTable { inner: x });
+        }
     }
     pub fn invalidate() {
         *ACPI_TABLE.lock() = None;
@@ -103,7 +103,11 @@ pub fn get_acpi_addr(boot_info: &BootInfo) {
 
 pub fn get_acpi_table() -> Option<Acpi> {
     let mut handler = AcpiHelper {};
-    println!("Get ACPI address :{:#x?}\n Smbios address: {:#x?}", pc_firmware_tables().0, pc_firmware_tables().1);
+    println!(
+        "Get ACPI address :{:#x?}\n Smbios address: {:#x?}",
+        pc_firmware_tables().0,
+        pc_firmware_tables().1
+    );
     match unsafe { parse_rsdp(&mut handler, pc_firmware_tables().0 as usize) } {
         Ok(table) => Some(table),
         Err(info) => {
@@ -122,7 +126,7 @@ impl AcpiHandler for AcpiHelper {
         size: usize,
     ) -> PhysicalMapping<T> {
         #[allow(non_snake_case)]
-            let OFFSET = 0;
+        let OFFSET = 0;
         let page_start = physical_address / PAGE_SIZE;
         let page_end = (physical_address + size + PAGE_SIZE - 1) / PAGE_SIZE;
         PhysicalMapping::<T> {

@@ -1,0 +1,1 @@
+AiliceOS KorenBook.lan 1.0.0 Koren Kernel Version 1.0.0: Mon Aug 31 22:12:52 PDT 2020; x86_64

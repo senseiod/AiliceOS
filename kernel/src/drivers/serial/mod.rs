@@ -1,17 +1,17 @@
-use spin::Mutex;
-use uart_16550::SerialPort;
+use alloc::boxed::Box;
+use alloc::collections::VecDeque;
 use alloc::vec::Vec;
 use lazy_static::*;
-use alloc::collections::VecDeque;
-use alloc::boxed::Box;
+use spin::Mutex;
+use uart_16550::SerialPort;
 
 pub static COM1: Mutex<SerialPort> = Mutex::new(unsafe { SerialPort::new(0x3F8) });
 pub static COM2: Mutex<SerialPort> = Mutex::new(unsafe { SerialPort::new(0x2F8) });
 
-
 lazy_static! {
     static ref STDIN: Mutex<VecDeque<u8>> = Mutex::new(VecDeque::new());
-    static ref STDIN_CALLBACK: Mutex<Vec<Box<dyn Fn() -> bool + Send + Sync>>> = Mutex::new(Vec::new());
+    static ref STDIN_CALLBACK: Mutex<Vec<Box<dyn Fn() -> bool + Send + Sync>>> =
+        Mutex::new(Vec::new());
 }
 
 pub fn init() {

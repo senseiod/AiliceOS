@@ -5,13 +5,13 @@ use core::panic::PanicInfo;
 fn panic(info: &PanicInfo) -> ! {
     print!("\n");
     print!(31;r"
-IIIIIIII          III            OO     III     II        IIIIIIIIIIII
-II     II        II  II                 IIII    II        II
-II     II       II    II         II     II II   II        II
-II     II      IIIIIIIIII        II     II  II  II        II
-IIIIIIII      II        II       II     II   II II        II
-II           II          II      II     II    IIII        II
-II          II            II     II     II     III        IIIIIIIIIIIII
+IIIIIIII           III            III     II     OO     IIIIIIIIIIII
+II     II         II  II          IIII    II            II
+II     II        II    II         II II   II     II     II
+II     II       IIIIIIIIII        II  II  II     II     II
+IIIIIIII       II        II       II   II II     II     II
+II            II          II      II    IIII     II     II
+II           II            II     II     III     II     IIIIIIIIIIIII
 ");
     print!("\n");
     debug!("{}", info);

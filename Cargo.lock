@@ -53,6 +53,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "bitvec"
+version = "0.17.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "41262f11d771fd4a61aa3ce019fca363b4b6c282fca9da2a31186d3965a47a5c"
+dependencies = [
+ "either",
+ "radium",
+]
+
+[[package]]
 name = "bootloader"
 version = "1.0.0"
 dependencies = [
@@ -92,12 +102,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 
 [[package]]
+name = "either"
+version = "1.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
+
+[[package]]
 name = "embedded-graphics"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "40a69991ceb896bd4810a0cf2bcc46fc94b7860573c71f965d8e5b3d66942fed"
 dependencies = [
  "byteorder",
+]
+
+[[package]]
+name = "filetime"
+version = "0.2.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3ed85775dcc68644b5c950ac06a2b23768d3bc9390464151aaf27136998dcf9e"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "redox_syscall",
+ "winapi",
+]
+
+[[package]]
+name = "isomorphic_drivers"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/isomorphic_drivers#fcf694d26d45c6cd42a789e934bf42f4aa9c4caa"
+dependencies = [
+ "bit_field 0.9.0",
+ "bitflags",
+ "log",
+ "spin",
+ "volatile",
 ]
 
 [[package]]
@@ -109,10 +149,16 @@ dependencies = [
  "bitmap-allocator",
  "bootloader",
  "buddy_system_allocator",
+ "isomorphic_drivers",
  "lazy_static",
  "pc-keyboard",
+ "pci",
  "raw-cpuid",
  "rcore-console",
+ "rcore-fs",
+ "rcore-fs-devfs",
+ "rcore-fs-mountfs",
+ "rcore-fs-sfs",
  "spin",
  "trapframe",
  "uart_16550",
@@ -129,6 +175,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "libc"
+version = "0.2.80"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4d58d1b70b004888f764dfbf6a26a3b0342a1632d33968e4a179d8011c760614"
+
+[[package]]
 name = "log"
 version = "0.4.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -142,6 +194,14 @@ name = "pc-keyboard"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5c6f2d937e3b8d63449b01401e2bae4041bc9dd1129c2e3e0d239407cf6635ac"
+
+[[package]]
+name = "pci"
+version = "0.0.1"
+source = "git+https://github.com/rcore-os/pci-rs?rev=a4e7cea6#a4e7cea640f8a92ae4b51c6c51fee3f1f0317af2"
+dependencies = [
+ "bitflags",
+]
 
 [[package]]
 name = "proc-macro2"
@@ -162,6 +222,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "radium"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "def50a86306165861203e7f84ecffbbdfdea79f0e51039b33de1e952358c47ac"
+
+[[package]]
 name = "raw-cpuid"
 version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -180,6 +246,55 @@ dependencies = [
  "embedded-graphics",
  "vte",
 ]
+
+[[package]]
+name = "rcore-fs"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7addce1acb843e57"
+dependencies = [
+ "filetime",
+ "spin",
+ "winapi",
+]
+
+[[package]]
+name = "rcore-fs-devfs"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7addce1acb843e57"
+dependencies = [
+ "log",
+ "rcore-fs",
+ "spin",
+]
+
+[[package]]
+name = "rcore-fs-mountfs"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7addce1acb843e57"
+dependencies = [
+ "lazy_static",
+ "log",
+ "rcore-fs",
+ "spin",
+]
+
+[[package]]
+name = "rcore-fs-sfs"
+version = "0.1.0"
+source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7addce1acb843e57"
+dependencies = [
+ "bitvec",
+ "log",
+ "rcore-fs",
+ "spin",
+ "static_assertions",
+]
+
+[[package]]
+name = "redox_syscall"
+version = "0.1.57"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "41cc0f7e4d5d4544e8861606a285bb08d3e70712ccc7d2b84d7c0ccfaf4b05ce"
 
 [[package]]
 name = "rustc_version"
@@ -210,6 +325,12 @@ name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "static_assertions"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f3eb36b47e512f8f1c9e3d10c2c1965bc992bd9cdb024fa581e2194501c83d3"
 
 [[package]]
 name = "syn"
@@ -298,6 +419,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "936e4b492acfd135421d8dca4b1aa80a7bfc26e702ef3af710e0752684df5372"
 
 [[package]]
+name = "volatile"
+version = "0.2.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f6b06ad3ed06fef1713569d547cdbdb439eafed76341820fb0e0344f29a41945"
+
+[[package]]
 name = "vte"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -317,6 +444,28 @@ dependencies = [
  "proc-macro2",
  "quote",
 ]
+
+[[package]]
+name = "winapi"
+version = "0.3.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
+dependencies = [
+ "winapi-i686-pc-windows-gnu",
+ "winapi-x86_64-pc-windows-gnu",
+]
+
+[[package]]
+name = "winapi-i686-pc-windows-gnu"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
+
+[[package]]
+name = "winapi-x86_64-pc-windows-gnu"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
 name = "x86"

@@ -1,3 +1,4 @@
+use crate::fs::inode_ext::INodeExt;
 use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt::Arguments;
@@ -8,7 +9,6 @@ pub fn init_shell() {
     test!("Shell END!");
 }
 
-
 pub fn shell(args: Arguments) {
     let mut history = Vec::new();
     loop {
@@ -17,7 +17,7 @@ pub fn shell(args: Arguments) {
         if cmd == String::from("") {
             continue;
         }
-        let name = cmd.trim().split(' ').next().unwrap();
+        let name = cmd.trim();
 
         match name {
             "hello" => print!(93; "Hello World! I'm Kernel Program\n"),
@@ -39,8 +39,24 @@ pub fn shell(args: Arguments) {
             "whoami" => {
                 print!(93; "I'm BMO! You are Moyan!\n");
             }
+            "panic" => {
+                panic!("Try Panic");
+            }
+            "hello world" => {
+                print!(93; "Hello world!\n");
+            }
             _ => {
-                print!(31; "Program not exist!\n");
+                let name_length = name.len();
+                if name_length > 2 && &name[0..3] == "cat" {
+                    let path = &name[4..name.len()];
+                    crate::fs::read_file(path);
+                } else if name_length > 1 && &name[0..2] == "ls" {
+                    crate::fs::ROOT_INODE.ls();
+                } else if name_length > 3 && &name[0..4] == "echo" {
+                    print!(31;"{} \n", &name[5..name.len()]);
+                } else {
+                    print!(31; "Program not exist!\n");
+                }
             }
         }
     }

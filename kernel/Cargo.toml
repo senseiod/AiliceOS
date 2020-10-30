@@ -22,3 +22,9 @@ trapframe = { git = "https://github.com/rcore-os/trapframe-rs.git" }
 rcore-console = { git = "https://github.com/rcore-os/rcore-console.git", default-features = false}
 bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator.git" }
 apic = { git = "https://github.com/rcore-os/apic-rs.git" }
+isomorphic_drivers = { git = "https://github.com/rcore-os/isomorphic_drivers", features = ["log"] }
+rcore-fs = { git = "https://github.com/rcore-os/rcore-fs.git" }
+rcore-fs-devfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
+rcore-fs-sfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
+rcore-fs-mountfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
+pci = { git = "https://github.com/rcore-os/pci-rs", rev = "a4e7cea6" }

@@ -1,0 +1,8 @@
+Hello World, I'm from hello.txt in FileSystem!
+
+
+            ░█▀▀█ ░▀░ █░░ ░▀░ █▀▀ █▀▀ ▒█▀▀▀█ ▒█▀▀▀█
+            ▒█▄▄█ ▀█▀ █░░ ▀█▀ █░░ █▀▀ ▒█░░▒█ ░▀▀▀▄▄
+            ▒█░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▒█▄▄▄█ ▒█▄▄▄█
+                                     Design By moyan
+                                     Version: 1.0.0
