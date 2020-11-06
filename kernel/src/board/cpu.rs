@@ -9,6 +9,9 @@ pub fn init_cpu() {
         .get_feature_info()
         .unwrap()
         .initial_local_apic_id() as usize;
+
+    // TODO: 启动其他CPU核心
+
     println!("I'm from {} cpu", cpu_id);
     if cpu_id != 0 {
         while !AP_CAN_INIT.load(Ordering::Relaxed) {

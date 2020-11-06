@@ -1,0 +1,11 @@
+[package]
+name = "user"
+version = "0.1.0"
+authors = ["青藤木子 <moyan@iouyi.top>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+uart_16550 = "0.2.10"
+buddy_system_allocator = "0.5.0"

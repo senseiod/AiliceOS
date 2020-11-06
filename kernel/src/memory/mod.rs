@@ -68,7 +68,7 @@ pub const fn kernel_offset(vaddr: usize) -> usize {
 #[derive(Debug, Clone, Copy)]
 pub struct GlobalFrameAlloc;
 
-trait FrameAllocator {
+pub(crate) trait FrameAllocator {
     fn alloc(&self) -> Option<usize>;
     fn alloc_contiguous(&self, size: usize, align_log2: usize) -> Option<PhysAddr>;
     fn dealloc(&self, target: usize);

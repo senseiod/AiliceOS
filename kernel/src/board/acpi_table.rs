@@ -92,6 +92,10 @@ pub fn pc_firmware_tables() -> (u64, u64) {
     unsafe { (CONFIG.acpi_rsdp, CONFIG.smbios) }
 }
 
+/// # Safety
+/// Get Acpi address from boot_info in Bootloader.
+/// Write into CONFIG, but CONFIG is global variable.
+/// So We use unsafe code
 pub fn get_acpi_addr(boot_info: &BootInfo) {
     unsafe {
         CONFIG = Config {
@@ -103,7 +107,7 @@ pub fn get_acpi_addr(boot_info: &BootInfo) {
 
 pub fn get_acpi_table() -> Option<Acpi> {
     let mut handler = AcpiHelper {};
-    println!(
+    debug!(
         "Get ACPI address :{:#x?}\n Smbios address: {:#x?}",
         pc_firmware_tables().0,
         pc_firmware_tables().1

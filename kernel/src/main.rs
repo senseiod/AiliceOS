@@ -5,6 +5,8 @@
 #![feature(untagged_unions)]
 #![feature(llvm_asm)]
 #![feature(asm)]
+#![feature(panic_info_message)]
+#![feature(naked_functions)]
 
 extern crate alloc;
 
@@ -18,24 +20,27 @@ pub mod interrupts;
 pub mod io;
 pub mod lang;
 pub mod memory;
-pub mod process;
 pub mod shell;
+pub mod sched;
+pub mod error;
+pub mod process;
+pub mod config;
 
 use bootloader::{entry_point, BootInfo};
 
 entry_point!(main);
 
-pub fn main(boot_info: &'static BootInfo) -> ! {
+fn main(boot_info: &'static BootInfo) -> ! {
     print!(33;"\n");
     test!("I'm from Kernel!");
-    memory::heap::init_heap(); // 初始化堆分配，以启用alloc库
-    drivers::init_driver(boot_info); // 初始化串口输出和显示输出
-    board::cpu::init_cpu(); // 初始化CPU特性
-    board::acpi_table::get_acpi_addr(boot_info); // 从 boot_info中读取acpi_table address
-    interrupts::init(); // 初始化Trap frame和中断
-    memory::init_frame(boot_info); // 初始化内存Frame
-    drivers::bus::pci::init();
-    fs::init();
-    shell::init_shell();
-    loop {}
+    memory::heap::init_heap(); // Initialize HEAP allocation to enable alloc crate
+    drivers::init_driver(boot_info); // Initialize serial output and graphic output
+    board::cpu::init_cpu(); // Initialize CPU feature
+    board::acpi_table::get_acpi_addr(boot_info); // Get acpi address from boot_info in Bootloader
+    interrupts::init(); // Initialize Trap frame and interrupt
+    memory::init_frame(boot_info); // Initialize memory Frame
+    drivers::bus::pci::init(); // Initialize PCI interrupt and PCI interrupt
+    fs::init(); // Initialize SFS[Simple File System]
+    shell::init_shell(); // call the simply shell
+    unreachable!()
 }

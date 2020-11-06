@@ -11,10 +11,12 @@ uart_16550 = "0.2.10"
 buddy_system_allocator = "0.5.0"
 x86_64 = "0.12.2"
 lazy_static = {version = "1.4.0", features = ["spin_no_std"]}
-spin = "0.5.2"
+spin = "0.6.0"
 raw-cpuid = "8.0.0"
 pc-keyboard = "0.5.1"
 acpi = "1.1.0"
+xmas-elf = "0.7.0"
+zeroize = "1.1.0"
 
 # Others Dependencies
 bootloader = { path = "../bootloader",default-features = false}
@@ -22,9 +24,11 @@ trapframe = { git = "https://github.com/rcore-os/trapframe-rs.git" }
 rcore-console = { git = "https://github.com/rcore-os/rcore-console.git", default-features = false}
 bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator.git" }
 apic = { git = "https://github.com/rcore-os/apic-rs.git" }
-isomorphic_drivers = { git = "https://github.com/rcore-os/isomorphic_drivers", features = ["log"] }
+isomorphic_drivers = { git = "https://github.com/rcore-os/isomorphic_drivers.git", features = ["log"] }
 rcore-fs = { git = "https://github.com/rcore-os/rcore-fs.git" }
 rcore-fs-devfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
 rcore-fs-sfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
 rcore-fs-mountfs = { git = "https://github.com/rcore-os/rcore-fs.git" }
-pci = { git = "https://github.com/rcore-os/pci-rs", rev = "a4e7cea6" }
+pci = { git = "https://github.com/rcore-os/pci-rs.git" }
+executor = { git = "https://github.com/rcore-os/executor.git" }
+goblin = { version = "0.2.1", default-features = false, features = ["elf32", "elf64", "mach32", "mach64", "pe32", "pe64", "archive", "endian_fd"] }

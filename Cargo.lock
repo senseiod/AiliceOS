@@ -22,9 +22,9 @@ dependencies = [
 
 [[package]]
 name = "arrayvec"
-version = "0.5.1"
+version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cff77d8686867eceff3105329d4698d96c2391c176d5d03adc90c7389162b5b8"
+checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
 
 [[package]]
 name = "bit_field"
@@ -47,7 +47,7 @@ checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 [[package]]
 name = "bitmap-allocator"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/bitmap-allocator#03bd9909d0dc85e99f5559b97a163ab81073df83"
+source = "git+https://github.com/rcore-os/bitmap-allocator.git#03bd9909d0dc85e99f5559b97a163ab81073df83"
 dependencies = [
  "bit_field 0.9.0",
 ]
@@ -80,7 +80,7 @@ version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "878f98e1ffe8407ab5e06c91715d45ca173d775c0fc77735c0b3ec88aa8161af"
 dependencies = [
- "spin",
+ "spin 0.5.2",
 ]
 
 [[package]]
@@ -117,6 +117,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "executor"
+version = "0.6.0"
+source = "git+https://github.com/rcore-os/executor.git#a2d02ee9567973209f557db53adc988dad2095e5"
+dependencies = [
+ "executor-macros",
+ "lazy_static",
+ "spin 0.5.2",
+ "woke",
+]
+
+[[package]]
+name = "executor-macros"
+version = "0.0.1"
+source = "git+https://github.com/rcore-os/executor.git#a2d02ee9567973209f557db53adc988dad2095e5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "filetime"
 version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -129,14 +150,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "goblin"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d20fd25aa456527ce4f544271ae4fea65d2eda4a6561ea56f39fb3ee4f7e3884"
+dependencies = [
+ "log",
+ "plain",
+ "scroll",
+]
+
+[[package]]
 name = "isomorphic_drivers"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/isomorphic_drivers#fcf694d26d45c6cd42a789e934bf42f4aa9c4caa"
+source = "git+https://github.com/rcore-os/isomorphic_drivers.git#fcf694d26d45c6cd42a789e934bf42f4aa9c4caa"
 dependencies = [
  "bit_field 0.9.0",
  "bitflags",
  "log",
- "spin",
+ "spin 0.5.2",
  "volatile",
 ]
 
@@ -149,6 +181,8 @@ dependencies = [
  "bitmap-allocator",
  "bootloader",
  "buddy_system_allocator",
+ "executor",
+ "goblin",
  "isomorphic_drivers",
  "lazy_static",
  "pc-keyboard",
@@ -159,10 +193,12 @@ dependencies = [
  "rcore-fs-devfs",
  "rcore-fs-mountfs",
  "rcore-fs-sfs",
- "spin",
+ "spin 0.6.0",
  "trapframe",
  "uart_16550",
  "x86_64",
+ "xmas-elf",
+ "zeroize",
 ]
 
 [[package]]
@@ -171,7 +207,7 @@ version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 dependencies = [
- "spin",
+ "spin 0.5.2",
 ]
 
 [[package]]
@@ -198,10 +234,16 @@ checksum = "5c6f2d937e3b8d63449b01401e2bae4041bc9dd1129c2e3e0d239407cf6635ac"
 [[package]]
 name = "pci"
 version = "0.0.1"
-source = "git+https://github.com/rcore-os/pci-rs?rev=a4e7cea6#a4e7cea640f8a92ae4b51c6c51fee3f1f0317af2"
+source = "git+https://github.com/rcore-os/pci-rs.git#a4e7cea640f8a92ae4b51c6c51fee3f1f0317af2"
 dependencies = [
  "bitflags",
 ]
+
+[[package]]
+name = "plain"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4596b6d070b27117e987119b4dac604f3c58cfb0b191112e24771b2faeac1a6"
 
 [[package]]
 name = "proc-macro2"
@@ -253,7 +295,7 @@ version = "0.1.0"
 source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7addce1acb843e57"
 dependencies = [
  "filetime",
- "spin",
+ "spin 0.5.2",
  "winapi",
 ]
 
@@ -264,7 +306,7 @@ source = "git+https://github.com/rcore-os/rcore-fs.git#6df6cd24d62e7b0b8c2a498d7
 dependencies = [
  "log",
  "rcore-fs",
- "spin",
+ "spin 0.5.2",
 ]
 
 [[package]]
@@ -275,7 +317,7 @@ dependencies = [
  "lazy_static",
  "log",
  "rcore-fs",
- "spin",
+ "spin 0.5.2",
 ]
 
 [[package]]
@@ -286,7 +328,7 @@ dependencies = [
  "bitvec",
  "log",
  "rcore-fs",
- "spin",
+ "spin 0.5.2",
  "static_assertions",
 ]
 
@@ -303,6 +345,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "138e3e0acb6c9fb258b19b67cb8abd63c00679d2851805ea151465464fe9030a"
 dependencies = [
  "semver",
+]
+
+[[package]]
+name = "scroll"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fda28d4b4830b807a8b43f7b0e6b5df875311b3e7621d84577188c175b6ec1ec"
+dependencies = [
+ "scroll_derive",
+]
+
+[[package]]
+name = "scroll_derive"
+version = "0.10.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b12bd20b94c7cdfda8c7ba9b92ad0d9a56e3fa018c25fca83b51aa664c9b4c0d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -327,6 +389,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
+name = "spin"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef7b840d5ef62f81f50649ade37112748461256c64a70bccefeabb4d02c515c5"
+
+[[package]]
 name = "static_assertions"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -334,9 +402,9 @@ checksum = "7f3eb36b47e512f8f1c9e3d10c2c1965bc992bd9cdb024fa581e2194501c83d3"
 
 [[package]]
 name = "syn"
-version = "1.0.44"
+version = "1.0.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e03e57e4fcbfe7749842d53e24ccb9aa12b7252dbe5e91d2acad31834c8b8fdd"
+checksum = "cc371affeffc477f42a221a1e4297aedcea33d47d19b61455588bd9d8f6b19ac"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -364,9 +432,9 @@ dependencies = [
 
 [[package]]
 name = "ucs2"
-version = "0.3.1"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85061f4e43545a613c0da6b87725bf23f8da8613cf2473719c4f71a270c4ce8a"
+checksum = "bad643914094137d475641b6bab89462505316ec2ce70907ad20102d28a79ab8"
 dependencies = [
  "bit_field 0.10.1",
 ]
@@ -411,6 +479,14 @@ name = "unicode-xid"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564"
+
+[[package]]
+name = "user"
+version = "0.1.0"
+dependencies = [
+ "buddy_system_allocator",
+ "uart_16550",
+]
 
 [[package]]
 name = "utf8parse"
@@ -468,6 +544,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
+name = "woke"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eafdab77c9ee549298ca6585107832aa89d77b14ba13cda220fec6105b17dbb1"
+
+[[package]]
 name = "x86"
 version = "0.33.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -502,3 +584,9 @@ name = "zero"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f1bc8a6b2005884962297587045002d8cfb8dcec9db332f4ca216ddc5de82c5"
+
+[[package]]
+name = "zeroize"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05f33972566adbd2d3588b0491eb94b98b43695c4ef897903470ede4f3f5a28a"

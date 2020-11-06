@@ -3,10 +3,8 @@ use core::panic::PanicInfo;
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    let location = info.location().unwrap();
-    let message = info.message().unwrap();
     print!("\n");
-    print!(31;r"
+    print!(r"
 IIIIIIII           III            III     II     OO     IIIIIIIIIIII
 II     II         II  II          IIII    II            II
 II     II        II    II         II II   II     II     II
@@ -16,23 +14,18 @@ II            II          II      II    IIII     II     II
 II           II            II     II     III     II     IIIIIIIIIIIII
 ");
     print!("\n");
-    debug!(
-        "\nPANIC in {} at line {} \n\t{}",
-        location.file(),
-        location.line(),
-        message
-    );
+    print!("{}", info);
     loop {}
 }
 
 #[no_mangle]
-extern "C" fn abort() -> ! {
-    panic!("abort!");
+pub extern "C" fn abort() {
+    panic!("abort");
 }
 
 #[lang = "oom"]
-fn oom(layout: Layout) -> ! {
-    panic!("Memory allocation of {} bytes failed", layout.size());
+fn oom(_: Layout) -> ! {
+    panic!("out of memory!");
 }
 
 #[lang = "eh_personality"]
