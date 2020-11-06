@@ -50,7 +50,7 @@ install-depends:
 	rustup component add rust-src
 	rustup component add llvm-tools-preview
 	cargo install rcore-fs-fuse --git https://github.com/rcore-os/rcore-fs --rev 7f5eeac --force
-	@apt install qemu-system
+	apt install qemu-system
 	@echo Install dependenics complete!
 
 # 打包文件
