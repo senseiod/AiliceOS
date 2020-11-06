@@ -31,6 +31,7 @@ run:
 	-drive format=qcow2,file=build/pc/user.qcow2,media=disk,cache=writeback,id=sfsimg,if=none \
 	-device ahci,id=ahci0 \
 	-device ide-hd,drive=sfsimg,bus=ahci0.0 \
+	-device isa-debug-exit \
     -m 4096 \
     -smp 2 \
     -serial mon:stdio \
@@ -50,7 +51,7 @@ install-depends:
 	rustup component add rust-src
 	rustup component add llvm-tools-preview
 	cargo install rcore-fs-fuse --git https://github.com/rcore-os/rcore-fs --rev 7f5eeac --force
-	sudo apt install qemu-system
+	sudo apt install qemu-system # apt源将安装QMEU
 	@echo Install dependenics complete!
 
 # 打包文件

@@ -41,6 +41,7 @@ fn main(boot_info: &'static BootInfo) -> ! {
     memory::init_frame(boot_info); // Initialize memory Frame
     drivers::bus::pci::init(); // Initialize PCI interrupt and PCI interrupt
     fs::init(); // Initialize SFS[Simple File System]
+    board::cpu::exit_in_qemu(board::cpu::QemuExitCode::Success); // Action测试需用，自己编译需注释掉
     shell::init_shell(); // call the simply shell
     unreachable!()
 }
