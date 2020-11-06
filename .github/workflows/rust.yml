@@ -17,6 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install depends
-      run: make install-depends uname -a
+      run: make install-depends
     - name: Build
       run: make all
