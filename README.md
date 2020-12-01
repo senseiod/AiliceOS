@@ -3,15 +3,14 @@
 ### Simplified Chinese(简体中文)
 
 ## 注意⚠️
-> - 项目仍在进行，该项目正在进行大规模重构,包括 多CPU架构支持,UEFI支持、完整文件系统、内存等
+> - 项目仍在进行，由于事务繁忙，正在缓慢更新
 
 ----------
 
 #### 进度报告
-> - 基础的内存和堆分配已经完成，加入了中断功能，但是并未实现更详细的中断
-> - 加了QEMU图形化，同时PC实体机也能够显示
-> - 优化代码，精简无用功能和代码
-> - 下一步：完整的中断支持和X86_64位CPU特性支持(多核支持以及FPU运算支持)
+> - 下一步实现内存完整分配
+> - FPU运算实现，下一步实现CPU多核支持
+> - 目前正在实现Processer，同时事务繁忙，正在缓慢更新
 
 ----------
 
@@ -72,4 +71,16 @@ $  sudo apt update && sudo apt install qemu-system # or sudo apt install qemu
 $  make all
 ```
 
-致谢：rCore、osdev
+### 致谢：
+> 感谢以下开源项目
+[rCore][1]
+[zCore][2]
+[juner_os][3]
+
+> 同时感谢以下文章或博客
+[os.phil-opp][4]
+
+ [1]: https://github.com/rcore-os/rCore
+ [2]: https://github.com/rcore-os/zCore
+ [3]: https://github.com/zzhgithub/juner_os
+ [4]: https://os.phil-opp.com/
